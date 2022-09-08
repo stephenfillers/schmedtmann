@@ -61,9 +61,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
       <div class="movements__row">
@@ -177,6 +180,23 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add Movement
+    currentAccount.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+
+    // Clear inputs
+    inputLoanAmount.value = '';
+    inputLoanAmount.blur();
+  }
+});
+
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
   if (
@@ -195,6 +215,13 @@ btnClose.addEventListener('click', function (e) {
     // Hide UI
     containerApp.style.opacity = 0;
   }
+});
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 
 /////////////////////////////////////////////////
@@ -421,3 +448,78 @@ btnClose.addEventListener('click', function (e) {
 
 // const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 // console.log(account);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// console.log(movements);
+
+// The includes method checks only for equality
+// console.log(movements.includes(-130));
+
+// SOME Method
+// Checks if any item in an array meets a specified condition
+// const anyDeposits = movements.some(mov => mov > 0);
+// console.log(anyDeposits);
+
+// EVERY Method
+// Checks if all items in an array meet a specified condition
+// console.log(movements.every(mov => mov > 0));
+// console.log(account4.movements.every(mov => mov > 0));
+
+// Separate callback
+// const deposit = mov => mov > 0;
+// console.log(movements.some(deposit));
+// console.log(movements.every(deposit));
+// console.log(movements.filter(deposit));
+
+// Flat method
+// Moves items from nested arrays into the main array (only goes one level deep)
+// Accepts a 'depth' argument flat(depth)
+// const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+// console.log(arr.flat());
+
+// const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+// console.log(arrDeep.flat(2));
+
+// const overallBalance = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(overallBalance);
+
+// Flatmap method
+// Combines flat with map
+// const overallBalance2 = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(overallBalance2);
+
+// Sort method
+// Mutates the original array
+
+// Strings
+// const owners = ['Jonas', 'Zack', 'Adam', 'Martha'];
+// console.log(owners);
+// console.log(owners.sort());
+// console.log(owners);
+
+// Numbers
+// console.log(movements);
+
+// Ascending order
+// If a is greater than b, trigger a swap (return 1)
+// If a is less than b, do not trigger a swap (return -1)
+
+// movements.sort((a, b) => {
+//   return a > b ? 1 : -1;
+// });
+
+// Drastically simplified
+// movements.sort((a, b) => a - b);
+// console.log(movements);
+
+// Descending order
+// If a is greater than b, do not trigger a swap (return -1)
+// If a is less than b, trigger a swap (return 1)
+
+// movements.sort((a, b) => b - a);
+// console.log(movements);
