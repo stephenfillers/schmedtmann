@@ -449,7 +449,7 @@ btnSort.addEventListener('click', function (e) {
 // const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 // console.log(account);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // console.log(movements);
 
 // The includes method checks only for equality
@@ -523,3 +523,195 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // movements.sort((a, b) => b - a);
 // console.log(movements);
+
+// const arr = [1, 2, 3, 4, 5, 6, 7];
+
+// Empty arrays and the fill method
+// const x = new Array(7);
+// console.log(x);
+
+// x.fill(1, 3, 5);
+// x.fill(1);
+// console.log(x);
+
+// arr.fill(23, 2, 6);
+// console.log(arr);
+
+// Array.from (cleaner than using new Array(7) and filling it)
+// const y = Array.from({ length: 7 }, () => 1);
+// console.log(y);
+
+// const z = Array.from({ length: 7 }, (_, i) => i + 1);
+// console.log(z);
+
+// const rolls = Array.from({ length: 100 }, (_, i) => {
+//   return Math.floor(Math.random() * 20) + 1;
+// });
+// console.log(rolls);
+
+// const rollsNoDupe = [...new Set(rolls)];
+// console.log(rollsNoDupe);
+
+// const ordered = rolls.sort((a, b) => a - b);
+// console.log(ordered);
+
+// labelBalance.addEventListener('click', function () {
+//   const movementsUI = Array.from(
+//     document.querySelectorAll('.movements__value'),
+//     el => Number(el.textContent.replace('€', ''))
+//   );
+//   console.log(movementsUI);
+// });
+
+// labelBalance.addEventListener('click', function () {
+//   const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+//   const uiText = movementsUI2.map(el =>
+//     Number(el.textContent.replace('€', ''))
+//   );
+//   console.log(uiText);
+// });
+
+// const arr1 = [1, 2, 3, 4, 5, 6, 7];
+// const arr2 = arr1.slice();
+// console.log(arr1 === arr2);
+// console.log(arr2);
+
+// Array methods practice
+
+// Exercise 1: Calculate the total deposits in the whole application
+
+// const bankDepositSum = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov > 0)
+//   .reduce((sum, cur) => sum + cur, 0);
+
+// console.log(bankDepositSum);
+
+// Exercise 2: Calculate the number of deposits that are over $1,000
+
+// const numDeposits1000 = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov >= 1000).length;
+
+// console.log(numDeposits1000);
+
+// const numDeposits1000Reduce = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((count, cur) => (cur >= 1000 ? count + 1 : count), 0);
+// // Why doesn't the ++ operator work when we wanted to increment the count variable from above?
+
+// console.log(numDeposits1000Reduce);
+
+// const numDeposits1000ReducePrefixed = accounts
+// .flatMap(acc => acc.movements)
+// .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+
+// console.log(numDeposits1000ReducePrefixed);
+
+// Prefixed operator
+
+// let a = 10;
+// console.log(a++);
+
+// ++ DOES increment the value, but it RETURNS the original value
+// Swapping this to the prefixed variant (++a) will resolve the problem
+
+// console.log(++a);
+
+// Exercise 3: Let's overcomplicate things with reduce!
+
+// const { deposits, withdrawals } = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce(
+//     (sum, cur) => {
+//       sum[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+//       return sum;
+//     },
+//     { deposits: 0, withdrawals: 0 }
+//   );
+// console.log(deposits, withdrawals);
+
+// Exercise 4: Title caser
+
+// const convertTitleCase = function (title) {
+//   const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
+//   const exceptions = ['a', 'an', 'and', 'the', 'but', 'or', 'on', 'in', 'with'];
+//   const titleCase = title
+//     .toLowerCase()
+//     .split(' ')
+//     .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+//     .join(' ');
+//   return capitalize(titleCase);
+// };
+
+// console.log(convertTitleCase('this is a nice title'));
+// console.log(convertTitleCase('this is a LONG title but not too long'));
+// console.log(convertTitleCase('and here is another title with an EXAMPLE'));
+
+// Coding challenge #4
+
+// const dogs = [
+//   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+//   { weight: 8, curFood: 200, owners: ['Matilda'] },
+//   { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+//   { weight: 32, curFood: 340, owners: ['Michael'] },
+// ];
+
+// // 1.
+
+// dogs.forEach(dog => {
+//   dog.recommendedFood = Math.trunc(dog.weight ** 0.75 * 28);
+// });
+// console.log(dogs);
+
+// // 2.
+
+// const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
+// console.log(
+//   dogSarah.curFood > dogSarah.recommendedFood
+//     ? 'Too much food!'
+//     : 'Too little food!'
+// );
+
+// // 3.
+
+// const { ownersEatTooMuch, ownersEatTooLittle } = dogs.reduce(
+//   (owners, dog) => {
+//     owners[
+//       dog.curFood > dog.recommendedFood
+//         ? 'ownersEatTooMuch'
+//         : 'ownersEatTooLittle'
+//     ].push(...dog.owners);
+//     return owners;
+//   },
+//   { ownersEatTooMuch: [], ownersEatTooLittle: [] }
+// );
+
+// // 4.
+
+// console.log(`${ownersEatTooMuch.join(' and ')}'s dogs eat too much.`);
+// console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat too little.`);
+
+// // 5.
+
+// console.log(dogs.some(dog => dog.curFood === dog.recommendedFood));
+
+// // 6.
+
+// const checkEatingOkay = dog =>
+//   dog.curFood > dog.recommendedFood * 0.9 &&
+//   dog.curFood < dog.recommendedFood * 1.1;
+
+// console.log(dogs.some(checkEatingOkay));
+
+// // 7.
+
+// console.log(dogs.filter(checkEatingOkay));
+
+// // 8.
+
+// const sortedDogs = dogs
+//   .slice()
+//   .sort((a, b) => a.recommendedFood - b.recommendedFood);
+// console.log(sortedDogs);
